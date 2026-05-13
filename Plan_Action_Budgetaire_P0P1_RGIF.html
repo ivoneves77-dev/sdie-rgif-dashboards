@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan d'action budgétaire P0-P1 — RGIF | GreenFlex</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F2F5;color:#172154;font-size:14px}
+
+.header{background:#172154;display:flex;align-items:stretch}
+.header-logo{background:#21AD81;padding:14px 24px;font-weight:700;font-size:17px;color:#fff;letter-spacing:.5px;min-width:150px;display:flex;align-items:center}
+.header-title{padding:12px 24px;flex:1}
+.header-title h1{color:#fff;font-size:16px;font-weight:700}
+.header-title p{color:#B4B4C8;font-size:11px;margin-top:3px}
+.header-meta{padding:12px 24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;border-left:3px solid #21AD81}
+.header-meta span{color:#B4B4C8;font-size:10px}
+.header-meta strong{color:#FFB71B;font-size:13px}
+
+.nav-bar{background:#fff;border-bottom:2px solid #21AD81;padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav-btn{padding:6px 14px;border-radius:20px;border:1px solid #B4B4C8;background:#fff;color:#50506D;font-size:11px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:5px;transition:all .15s}
+.nav-btn:hover,.nav-btn.active{background:#172154;color:#fff;border-color:#172154}
+.nav-btn.p0.active{background:#C0392B;border-color:#C0392B}
+.nav-btn.p1.active{background:#8B6914;border-color:#8B6914}
+.nav-btn.all.active{background:#21AD81;border-color:#21AD81}
+.nav-info{margin-left:auto;font-size:11px;color:#50506D}
+
+.dashboard{padding:16px 20px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:8px;padding:14px 14px;border-top:4px solid #21AD81;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi.red{border-top-color:#C0392B}
+.kpi.amber{border-top-color:#8B6914}
+.kpi.blue{border-top-color:#172154}
+.kpi-label{font-size:10px;color:#50506D;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.kpi-val{font-size:26px;font-weight:700;line-height:1}
+.kpi-val.red{color:#C0392B}
+.kpi-val.amber{color:#8B6914}
+.kpi-val.blue{color:#172154}
+.kpi-val.green{color:#21AD81}
+.kpi-sub{font-size:10px;color:#B4B4C8;margin-top:3px}
+
+.section-label{font-size:13px;font-weight:700;color:#172154;margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+.section-label .badge-prio{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.section-label::after{content:'';flex:1;height:1px;background:#E5E7EB}
+
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.cards-grid.single{grid-template-columns:1fr}
+
+.site-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.site-card.p0{border-left:4px solid #C0392B;border-radius:0 10px 10px 0}
+.site-card.p1{border-left:4px solid #8B6914;border-radius:0 10px 10px 0}
+
+.card-head{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #F0F2F5}
+.card-head-left{display:flex;align-items:center;gap:8px}
+.site-name{font-size:13px;font-weight:700;color:#172154}
+.site-info{font-size:10px;color:#50506D;margin-top:1px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.b-p0{background:#FDECEA;color:#C0392B}
+.b-p1{background:#FEF5E0;color:#8B6914}
+.b-score{background:#F0F2F5;color:#50506D;font-size:10px}
+
+.card-body{padding:12px 14px}
+.action-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px}
+.action-row:last-child{margin-bottom:0}
+.action-icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:12px}
+.ai-red{background:#FDECEA;color:#C0392B}
+.ai-amber{background:#FEF5E0;color:#8B6914}
+.ai-green{background:#E8F8F3;color:#078970}
+.ai-blue{background:#EAECF4;color:#172154}
+.action-content{flex:1}
+.action-text{font-size:12px;color:#172154;line-height:1.4}
+.action-detail{font-size:10px;color:#50506D;margin-top:2px;font-style:italic}
+.action-cost{font-size:11px;font-weight:700;color:#50506D;white-space:nowrap;margin-left:6px;padding-top:1px}
+
+.card-actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+
+.card-foot{padding:10px 14px;background:#F8F9FA;border-top:1px solid #F0F2F5;display:flex;align-items:center;justify-content:space-between}
+.card-total{font-size:13px;font-weight:700;color:#172154}
+.card-total span{color:#C0392B}
+.card-horizon{font-size:10px;color:#50506D;display:flex;align-items:center;gap:4px}
+
+.horizon-section{margin:20px 0}
+.horizon-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.horizon-card{border-radius:10px;padding:14px 16px;border:1px solid transparent}
+.hc-red{background:#FDECEA;border-color:#F09595}
+.hc-amber{background:#FEF5E0;border-color:#FAC775}
+.hc-green{background:#E8F8F3;border-color:#9FE1CB}
+.hc-top{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.hc-top.red{color:#C0392B}
+.hc-top.amber{color:#8B6914}
+.hc-top.green{color:#078970}
+.hc-amount{font-size:24px;font-weight:700;margin-bottom:6px}
+.hc-amount.red{color:#C0392B}
+.hc-amount.amber{color:#8B6914}
+.hc-amount.green{color:#078970}
+.hc-sites{font-size:11px;color:#50506D;line-height:1.5}
+
+.charts-section{margin:20px 0}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px}
+.chart-title{font-size:12px;font-weight:700;color:#50506D;margin-bottom:14px;text-transform:uppercase;letter-spacing:.3px}
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11px;color:#50506D}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.bottom-bar{background:#172154;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:20px;margin-bottom:8px}
+.bt-left h3{font-size:16px;font-weight:700;color:#fff}
+.bt-left h3 span{color:#FFB71B}
+.bt-left p{font-size:11px;color:#B4B4C8;margin-top:4px}
+.bt-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bt-btn{padding:8px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:11px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:5px;transition:all .15s}
+.bt-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+.bt-btn.green{background:#21AD81;border-color:#21AD81}
+.bt-btn.green:hover{background:#078970;border-color:#078970}
+
+.footer{background:#172154;color:#B4B4C8;text-align:center;padding:10px;font-size:9px;margin-top:0}
+.footer strong{color:#21AD81}
+
+.hidden{display:none!important}
+
+@media print{
+  .nav-bar,.bt-btns{display:none}
+  body{background:#fff}
+  .dashboard{padding:8px}
+  .bottom-bar{background:#172154!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">GreenFlex</div>
+  <div class="header-title">
+    <h1>Plan d'action budgétaire — Sites P0 et P1 RGIF</h1>
+    <p>Analyse des 5 sites prioritaires · Enveloppes estimées macro · Tranche ferme SDIE · Consultation AMO_2026-001</p>
+  </div>
+  <div class="header-meta">
+    <span>Auditeur principal</span>
+    <strong>Ivo DOS SANTOS</strong>
+    <span style="margin-top:4px" id="hd-date"></span>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <button class="nav-btn all active" id="btn-all" onclick="filterView('all')">
+    <i class="ti ti-list" style="font-size:13px"></i> Tous les sites (5)
+  </button>
+  <button class="nav-btn p0" id="btn-p0" onclick="filterView('p0')">
+    <i class="ti ti-alert-triangle" style="font-size:13px"></i> P0 — Urgents (2)
+  </button>
+  <button class="nav-btn p1" id="btn-p1" onclick="filterView('p1')">
+    <i class="ti ti-clock" style="font-size:13px"></i> P1 — Prioritaires (3)
+  </button>
+  <span class="nav-info">
+    <i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px"></i>
+    Montants en k€ HT · Ordres de grandeur macro — à affiner par études MOE
+  </span>
+  <button class="nav-btn" onclick="window.print()" style="margin-left:auto">
+    <i class="ti ti-printer" style="font-size:13px"></i> Imprimer
+  </button>
+</div>
+
+<div class="dashboard">
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi red">
+      <div class="kpi-label">Sites analysés P0+P1</div>
+      <div class="kpi-val red">5</div>
+      <div class="kpi-sub">sur 10 sites visités</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Enveloppe totale estimée</div>
+      <div class="kpi-val red">5,16 M€</div>
+      <div class="kpi-sub">HT · ordres de grandeur macro</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Actions immédiates P0</div>
+      <div class="kpi-val amber">3</div>
+      <div class="kpi-sub">Avant prochaine commission sécurité</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Surface concernée</div>
+      <div class="kpi-val blue" style="font-size:20px">15 600 m²</div>
+      <div class="kpi-sub">SUB total P0 + P1</div>
+    </div>
+  </div>
+
+  <!-- SITES P0 -->
+  <div class="section-label" id="section-p0">
+    <span class="badge-prio b-p0">P0 — Intervention immédiate</span>
+  </div>
+  <div class="cards-grid" id="grid-p0">
+
+    <!-- Caserne Mohier -->
+    <div class="site-card p0">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="badge b-p0">P0</span>
+          <div>
+            <div class="site-name">Caserne Mohier</div>
+            <div class="site-info">Maisons-Alfort · 3 200 m² SUB · 48 gendarmes · Score : 95/100</div>
+          </div>
+        </div>
+        <span class="badge b-score">NC Décret tertiaire · -38% requis</span>
+      </div>
+      <div class="card-body">
+        <div class="action-row">
+          <div class="action-icon ai-red"><i class="ti ti-alert-triangle"></i></div>
+          <div class="action-content">
+            <div class="action-text">Requalification SSI armurerie — déclencheur manuel hors service</div>
+            <div class="action-detail">Avant prochaine commission sécurité · Risque juridique immédiat</div>
+          </div>
+          <div class="action-cost">~35 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-red"><i class="ti ti-flame"></i></div>
+          <div class="action-content">
+            <div class="action-text">Remplacement chaudière gaz 1989 par PAC air/eau</div>
+            <div class="action-detail">Rendement actuel &lt;75% · Fuites réseau primaire · Gain décret tertiaire estimé -18%</div>
+          </div>
+          <div class="action-cost">~180 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-building"></i></div>
+          <div class="action-content">
+            <div class="action-text">Réfection toiture bâtiment B — infiltrations actives angle NO</div>
+            <div class="action-detail">Traces humidité en comble · Intervention avant hiver</div>
+          </div>
+          <div class="action-cost">~95 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-window"></i></div>
+          <div class="action-content">
+            <div class="action-text">Remplacement menuiseries simple vitrage — déperditions importantes</div>
+            <div class="action-detail">Planifiable sous 3 ans · Gain thermique estimé -12%</div>
+          </div>
+          <div class="action-cost">~120 k€</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-total">Total estimé : <span>~430 k€ HT</span></div>
+        <div class="card-horizon"><i class="ti ti-calendar" style="font-size:12px"></i> Immédiat + horizon 3 ans</div>
+      </div>
+    </div>
+
+    <!-- Caserne Kellermann -->
+    <div class="site-card p0">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="badge b-p0">P0</span>
+          <div>
+            <div class="site-name">Caserne Kellermann</div>
+            <div class="site-info">Paris 13e · 2 800 m² SUB · 36 gendarmes · Score : 88/100</div>
+          </div>
+        </div>
+        <span class="badge b-score">À risque Décret · -24% requis</span>
+      </div>
+      <div class="card-body">
+        <div class="action-row">
+          <div class="action-icon ai-red"><i class="ti ti-wall"></i></div>
+          <div class="action-content">
+            <div class="action-text">Expertise structure + confortement façade fissuré</div>
+            <div class="action-detail">Expertise à commander en urgence · Périmètre de sécurité à étudier</div>
+          </div>
+          <div class="action-cost">~210 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-red"><i class="ti ti-window"></i></div>
+          <div class="action-content">
+            <div class="action-text">Remplacement menuiseries — perte thermique critique</div>
+            <div class="action-detail">Simple vitrage sur ensemble du bâtiment principal · Gain estimé -15%</div>
+          </div>
+          <div class="action-cost">~145 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-bolt"></i></div>
+          <div class="action-content">
+            <div class="action-text">Mise aux normes tableau électrique NFC 15-100</div>
+            <div class="action-detail">Vétusté avancée · Vérification périodique en attente</div>
+          </div>
+          <div class="action-cost">~48 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-green"><i class="ti ti-leaf"></i></div>
+          <div class="action-content">
+            <div class="action-text">Optimisation GTB existante — quick win énergie sans investissement lourd</div>
+            <div class="action-detail">Réglages plages horaires · Gain estimé -8% conso. immédiat</div>
+          </div>
+          <div class="action-cost">~12 k€</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-total">Total estimé : <span>~415 k€ HT</span></div>
+        <div class="card-horizon"><i class="ti ti-calendar" style="font-size:12px"></i> Immédiat + horizon 2 ans</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITES P1 -->
+  <div class="section-label" id="section-p1">
+    <span class="badge-prio b-p1">P1 — À programmer sous 3 ans</span>
+  </div>
+  <div class="cards-grid" id="grid-p1">
+
+    <!-- Caserne de la Plaine -->
+    <div class="site-card p1">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="badge b-p1">P1</span>
+          <div>
+            <div class="site-name">Caserne de la Plaine</div>
+            <div class="site-info">Saint-Denis · 4 100 m² SUB · 62 gendarmes · Score : 76/100</div>
+          </div>
+        </div>
+        <span class="badge b-score">À risque Décret · Regroupement étudié</span>
+      </div>
+      <div class="card-body">
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-building"></i></div>
+          <div class="action-content">
+            <div class="action-text">Réfection toiture complète — infiltrations sur 3 zones identifiées</div>
+            <div class="action-detail">Zones détaillées dans la fiche bâtimentaire n°03</div>
+          </div>
+          <div class="action-cost">~220 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-home"></i></div>
+          <div class="action-content">
+            <div class="action-text">Rénovation 4 logements LCNAS vacants &gt;6 mois — remise en état</div>
+            <div class="action-detail">Vacance due à mutations sans remplacement · Réattribution prioritaire</div>
+          </div>
+          <div class="action-cost">~80 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-green"><i class="ti ti-arrows-join"></i></div>
+          <div class="action-content">
+            <div class="action-text">Étude de regroupement avec site voisin — effectifs en baisse</div>
+            <div class="action-detail">À confirmer en TO2 · Compatibilité L.4121-5 à vérifier avant tout engagement</div>
+          </div>
+          <div class="action-cost">~15 k€</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-total">Total estimé : <span style="color:#8B6914">~315 k€ HT</span></div>
+        <div class="card-horizon"><i class="ti ti-calendar" style="font-size:12px"></i> 1 à 3 ans + étude TO2</div>
+      </div>
+    </div>
+
+    <!-- Caserne du Pont -->
+    <div class="site-card p1">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="badge b-p1">P1</span>
+          <div>
+            <div class="site-name">Caserne du Pont</div>
+            <div class="site-info">Créteil · 1 900 m² SUB · 28 gendarmes · Score : 72/100</div>
+          </div>
+        </div>
+        <span class="badge b-score">NC Décret · -29% requis · PMR non conforme</span>
+      </div>
+      <div class="card-body">
+        <div class="action-row">
+          <div class="action-icon ai-red"><i class="ti ti-accessible"></i></div>
+          <div class="action-content">
+            <div class="action-text">Mise en conformité PMR — rampe d'accès + sanitaires adaptés</div>
+            <div class="action-detail">Ad'AP dépassé · Risque juridique · Urgence réglementaire</div>
+          </div>
+          <div class="action-cost">~65 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-home"></i></div>
+          <div class="action-content">
+            <div class="action-text">Gestion sur-occupation LCNAS 91% — 2 logements à restructurer</div>
+            <div class="action-detail">Analyse attributions + travaux d'aménagement intérieur</div>
+          </div>
+          <div class="action-cost">~40 k€</div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon ai-amber"><i class="ti ti-bolt"></i></div>
+          <div class="action-content">
+            <div class="action-text">Plan réduction énergie -29% requis — ITE partielle + remplacement CVC</div>
+            <div class="action-detail">Isolation thermique extérieure façade + PAC + VMC double flux</div>
+          </div>
+          <div class="action-cost">~310 k€</div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-total">Total estimé : <span style="color:#8B6914">~415 k€ HT</span></div>
+        <div class="card-horizon"><i class="ti ti-calendar" style="font-size:12px"></i> 1 à 3 ans</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Caserne Foch pleine largeur -->
+  <div class="cards-grid single" id="grid-foch">
+    <div class="site-card p1">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="badge b-p1">P1</span>
+          <div>
+            <div class="site-name">Caserne Foch</div>
+            <div class="site-info">Vincennes · 3 600 m² SUB · 54 gendarmes · Score : 68/100 · Potentiel de valorisation foncière identifié</div>
+          </div>
+        </div>
+        <span class="badge b-score">À risque Décret · 1 200 m² libérables · PV 80 kWc</span>
+      </div>
+      <div class="card-body">
+        <div class="card-actions-grid">
+          <div>
+            <div class="action-row">
+              <div class="action-icon ai-amber"><i class="ti ti-flame"></i></div>
+              <div class="action-content">
+                <div class="action-text">Remplacement CVC complet — systèmes en fin de vie</div>
+                <div class="action-detail">PAC double service chauffage+ECS recommandée · Gain -22% conso.</div>
+              </div>
+              <div class="action-cost">~380 k€</div>
+            </div>
+            <div class="action-row">
+              <div class="action-icon ai-amber"><i class="ti ti-wall"></i></div>
+              <div class="action-content">
+                <div class="action-text">ITE partielle bâtiment principal — façade Nord/Est</div>
+                <div class="action-detail">Gain thermique estimé -14% · Travaux programmables avec CVC</div>
+              </div>
+              <div class="action-cost">~165 k€</div>
+            </div>
+          </div>
+          <div>
+            <div class="action-row">
+              <div class="action-icon ai-green"><i class="ti ti-chart-area"></i></div>
+              <div class="action-content">
+                <div class="action-text">Étude de valorisation foncière — 1 200 m² libérables identifiés</div>
+                <div class="action-detail">Compatibilité L.4121-5 à vérifier · À approfondir en TO2</div>
+              </div>
+              <div class="action-cost">~20 k€</div>
+            </div>
+            <div class="action-row">
+              <div class="action-icon ai-green"><i class="ti ti-sun"></i></div>
+              <div class="action-content">
+                <div class="action-text">Étude solaire toiture — potentiel PV estimé 80 kWc</div>
+                <div class="action-detail">Autoconsommation LST · Étude de faisabilité structure requise</div>
+              </div>
+              <div class="action-cost">~18 k€</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="card-total">Total estimé : <span style="color:#8B6914">~583 k€ HT</span></div>
+        <div class="card-horizon">
+          <i class="ti ti-calendar" style="font-size:12px"></i> 2 à 3 ans ·
+          <span style="color:#078970;font-weight:600">Opportunité valorisation + PV à confirmer en TO2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RÉPARTITION PAR HORIZON -->
+  <div class="section-label" style="margin-top:24px">
+    <span style="font-weight:700;color:#172154">Répartition budgétaire par horizon</span>
+  </div>
+  <div class="horizon-grid">
+    <div class="horizon-card hc-red">
+      <div class="hc-top red"><i class="ti ti-urgent" style="font-size:12px;vertical-align:-1px"></i> Immédiat — avant commission</div>
+      <div class="hc-amount red">~248 k€ HT</div>
+      <div class="hc-sites">
+        SSI armurerie (35 k€) · Expertise façade (210 k€) · Tableau élec. (48 k€) · PMR urgente (65 k€ inclus dans P1)<br>
+        <strong>2 sites · 3 actions non reportables</strong>
+      </div>
+    </div>
+    <div class="horizon-card hc-amber">
+      <div class="hc-top amber"><i class="ti ti-clock" style="font-size:12px;vertical-align:-1px"></i> Court terme — 1 à 3 ans</div>
+      <div class="hc-amount amber">~2,86 M€ HT</div>
+      <div class="hc-sites">
+        CVC/PAC · Toitures · Menuiseries · ITE · LCNAS · Électricité<br>
+        <strong>5 sites · 12 actions planifiables</strong>
+      </div>
+    </div>
+    <div class="horizon-card hc-green">
+      <div class="hc-top green"><i class="ti ti-search" style="font-size:12px;vertical-align:-1px"></i> Études préalables TO2</div>
+      <div class="hc-amount green">~53 k€ HT</div>
+      <div class="hc-sites">
+        Valorisation foncière Foch (20 k€) · Étude PV (18 k€) · Regroupement La Plaine (15 k€)<br>
+        <strong>3 sites · 3 études à lancer</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUES -->
+  <div class="section-label" style="margin-top:24px">
+    <span style="font-weight:700;color:#172154">Distribution budgétaire</span>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">Budget estimé par site (k€ HT)</div>
+      <div style="position:relative;width:100%;height:240px">
+        <canvas id="chart-sites" role="img" aria-label="Budget estimé par site P0 et P1 en milliers d'euros HT">
+          Mohier 430k, Kellermann 415k, La Plaine 315k, Du Pont 415k, Foch 583k.
+        </canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Répartition par type d'action</div>
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-dot" style="background:#C0392B"></span>Sécurité — 283 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8B6914"></span>CVC/Énergie — 1 650 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#172154"></span>Enveloppe — 755 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#21AD81"></span>LCNAS/PMR — 185 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#B4B4C8"></span>Études — 53 k€</span>
+      </div>
+      <div style="position:relative;width:100%;height:200px">
+        <canvas id="chart-types" role="img" aria-label="Répartition budgétaire par type d'action : CVC/Énergie 1650k, Enveloppe 755k, Sécurité 283k, LCNAS/PMR 185k, Études 53k">
+          Sécurité 283k, CVC/Énergie 1650k, Enveloppe bâti 755k, LCNAS/PMR 185k, Études préalables 53k.
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRE TOTALE -->
+  <div class="bottom-bar">
+    <div class="bt-left">
+      <h3>Enveloppe totale P0+P1 : <span>~5,16 M€ HT</span></h3>
+      <p>Ordres de grandeur macro — à affiner par études de maîtrise d'œuvre site par site · Non contractuels</p>
+    </div>
+    <div class="bt-btns">
+      <button class="bt-btn green" onclick="window.print()">
+        <i class="ti ti-printer" style="font-size:13px"></i> Imprimer
+      </button>
+      <button class="bt-btn" onclick="window.location.href='Dashboard_10sites_RGIF.html'">
+        <i class="ti ti-table" style="font-size:13px"></i> Retour tableau des 10 sites
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>GreenFlex</strong> · Plan d'action budgétaire P0-P1 · SDIE RGIF · Consultation AMO_2026-001 · Document confidentiel
+</div>
+
+<script>
+document.getElementById("hd-date").textContent = new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"});
+
+function filterView(mode){
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active","p0","p1","all"));
+  document.getElementById("btn-"+mode).classList.add("active",mode);
+  const showP0 = mode==="all"||mode==="p0";
+  const showP1 = mode==="all"||mode==="p1";
+  document.getElementById("section-p0").classList.toggle("hidden",!showP0);
+  document.getElementById("grid-p0").classList.toggle("hidden",!showP0);
+  document.getElementById("section-p1").classList.toggle("hidden",!showP1);
+  document.getElementById("grid-p1").classList.toggle("hidden",!showP1);
+  document.getElementById("grid-foch").classList.toggle("hidden",!showP1);
+}
+
+// Chart 1 — Budget par site
+new Chart(document.getElementById("chart-sites"),{
+  type:"bar",
+  data:{
+    labels:["Mohier\nM-Alfort","Kellermann\nParis 13e","La Plaine\nSt-Denis","Du Pont\nCréteil","Foch\nVincennes"],
+    datasets:[{
+      label:"Budget estimé (k€)",
+      data:[430,415,315,415,583],
+      backgroundColor:["#C0392B","#C0392B","#8B6914","#8B6914","#8B6914"],
+      borderRadius:5,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>" "+v.raw+" k€ HT"}}},
+    scales:{
+      x:{ticks:{color:"#50506D",font:{size:11},autoSkip:false,maxRotation:0},grid:{display:false}},
+      y:{ticks:{color:"#50506D",font:{size:11},callback:v=>v+" k€"},grid:{color:"rgba(0,0,0,.05)"},beginAtZero:true}
+    }
+  }
+});
+
+// Chart 2 — Types d'action
+new Chart(document.getElementById("chart-types"),{
+  type:"doughnut",
+  data:{
+    labels:["Sécurité","CVC / Énergie","Enveloppe bâti","LCNAS / PMR","Études préalables"],
+    datasets:[{
+      data:[283,1650,755,185,53],
+      backgroundColor:["#C0392B","#8B6914","#172154","#21AD81","#B4B4C8"],
+      borderWidth:0,
+      hoverOffset:6,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    cutout:"60%",
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:v=>" "+v.label+" : "+v.raw+" k€ ("+Math.round(v.raw/2926*100)+"%)"}}
+    }
+  }
+});
+</script>
+</body>
+</html>

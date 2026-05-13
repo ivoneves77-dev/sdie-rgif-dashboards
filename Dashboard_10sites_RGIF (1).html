@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnostic Tranche ferme — 10 sites RGIF | GreenFlex</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F2F5;color:#172154;font-size:14px}
+
+.header{background:#172154;display:flex;align-items:stretch}
+.header-logo{background:#21AD81;padding:14px 24px;font-weight:700;font-size:17px;color:#fff;letter-spacing:.5px;min-width:150px;display:flex;align-items:center}
+.header-title{padding:12px 24px;flex:1}
+.header-title h1{color:#fff;font-size:16px;font-weight:700}
+.header-title p{color:#B4B4C8;font-size:11px;margin-top:3px}
+.header-meta{padding:12px 24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;border-left:3px solid #21AD81}
+.header-meta span{color:#B4B4C8;font-size:10px}
+.header-meta strong{color:#FFB71B;font-size:13px}
+
+.toolbar{background:#fff;border-bottom:2px solid #21AD81;padding:10px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.toolbar label{font-size:11px;color:#50506D;font-weight:600;text-transform:uppercase}
+.toolbar select{padding:5px 10px;border:1px solid #B4B4C8;border-radius:6px;font-size:12px;color:#172154;background:#fff;cursor:pointer}
+.toolbar select.active{border-color:#21AD81;background:#E8F8F3;color:#078970;font-weight:700}
+.btn-reset{margin-left:auto;background:#21AD81;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:5px}
+.btn-reset:hover{background:#078970}
+.count-badge{font-size:11px;color:#50506D;background:#EAECF4;padding:3px 10px;border-radius:20px;font-weight:600}
+
+.dashboard{padding:16px 20px}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.kpi{background:#fff;border-radius:8px;padding:14px 12px;border-top:4px solid #21AD81;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi.red{border-top-color:#C0392B}
+.kpi.amber{border-top-color:#8B6914}
+.kpi.blue{border-top-color:#172154}
+.kpi.green{border-top-color:#21AD81}
+.kpi-label{font-size:10px;color:#50506D;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.kpi-val{font-size:26px;font-weight:700;color:#172154;line-height:1}
+.kpi-val.red{color:#C0392B}
+.kpi-val.amber{color:#8B6914}
+.kpi-val.blue{color:#172154}
+.kpi-sub{font-size:10px;color:#B4B4C8;margin-top:3px}
+
+.table-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+colgroup col.c-site{width:140px}
+colgroup col.c-ville{width:100px}
+colgroup col.c-surf{width:75px}
+colgroup col.c-eff{width:65px}
+colgroup col.c-prio{width:72px}
+colgroup col.c-etat{width:75px}
+colgroup col.c-occ{width:100px}
+colgroup col.c-dec{width:100px}
+colgroup col.c-score{width:100px}
+colgroup col.c-opp{width:110px}
+colgroup col.c-compat{width:110px}
+colgroup col.c-act{width:80px}
+
+thead tr{background:#172154}
+th{padding:9px 10px;text-align:left;font-weight:600;font-size:10px;color:#B4B4C8;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;letter-spacing:.3px}
+th:hover{color:#fff}
+th .si{font-size:9px;margin-left:2px;opacity:.5}
+td{padding:9px 10px;border-bottom:1px solid #F0F2F5;color:#172154;vertical-align:middle}
+tr:hover td{background:#F8F9FA}
+tr:last-child td{border-bottom:none}
+
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.b-p0{background:#FDECEA;color:#C0392B}
+.b-p1{background:#FEF5E0;color:#8B6914}
+.b-p2{background:#E8F8F3;color:#078970}
+.b-p3{background:#EAECF4;color:#172154}
+.b-ok{background:#E8F8F3;color:#078970}
+.b-risk{background:#FEF5E0;color:#8B6914}
+.b-nc{background:#FDECEA;color:#C0392B}
+.b-fav{background:#E8F8F3;color:#078970}
+.b-cond{background:#FEF5E0;color:#8B6914}
+.b-warn{background:#FDECEA;color:#C0392B}
+.b-tag{background:#EAECF4;color:#50506D}
+
+.bar-wrap{display:flex;align-items:center;gap:5px}
+.bar-track{height:5px;border-radius:3px;background:#EAECF4;flex:1;overflow:hidden;min-width:40px}
+.bar-fill{height:100%;border-radius:3px}
+.bar-val{font-size:11px;color:#50506D;min-width:28px;text-align:right}
+.bar-val.bold{font-weight:700}
+
+.note-cell{font-size:10px;color:#B4B4C8;line-height:1.4;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:help}
+
+.detail-btn{font-size:10px;padding:4px 8px;border-radius:5px;border:1px solid #B4B4C8;background:#fff;color:#50506D;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:3px}
+.detail-btn:hover{background:#EAECF4;color:#172154;border-color:#50506D}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;padding:12px 20px 16px;font-size:10px;color:#50506D;border-top:1px solid #F0F2F5}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+.footer{background:#172154;color:#B4B4C8;text-align:center;padding:10px;font-size:9px;margin-top:16px}
+.footer strong{color:#21AD81}
+
+.no-result{text-align:center;padding:40px;color:#B4B4C8;font-style:italic;font-size:13px}
+
+@media print{
+  .toolbar,.btn-reset,.detail-btn{display:none}
+  body{background:#fff}
+  .dashboard{padding:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">GreenFlex</div>
+  <div class="header-title">
+    <h1>Diagnostic Tranche ferme — 10 sites RGIF</h1>
+    <p>Données issues des visites terrain · Grilles LST + LCNAS · Cotation P0-P3 · Consultation AMO_2026-001</p>
+  </div>
+  <div class="header-meta">
+    <span>Mission</span>
+    <strong>SDIE Gendarmerie IDF</strong>
+    <span style="margin-top:4px" id="hd-date"></span>
+  </div>
+</div>
+
+<div class="toolbar">
+  <label>Priorité</label>
+  <select id="f-prio" onchange="render()">
+    <option value="">Toutes</option>
+    <option>P0</option><option>P1</option><option>P2</option><option>P3</option>
+  </select>
+  <label>Décret tertiaire</label>
+  <select id="f-dec" onchange="render()">
+    <option value="">Tous</option>
+    <option value="Conforme">Conforme</option>
+    <option value="À risque">À risque</option>
+    <option value="Non conforme">Non conforme</option>
+  </select>
+  <label>Opportunité</label>
+  <select id="f-opp" onchange="render()">
+    <option value="">Toutes</option>
+    <option value="Réhabilitation">Réhabilitation</option>
+    <option value="Regroupement">Regroupement</option>
+    <option value="Valorisation">Valorisation</option>
+    <option value="Maintien">Maintien</option>
+  </select>
+  <label>Compatibilité L.4121-5</label>
+  <select id="f-compat" onchange="render()">
+    <option value="">Toutes</option>
+    <option value="Favorable">Favorable</option>
+    <option value="Conditionnelle">Conditionnelle</option>
+  </select>
+  <span class="count-badge" id="count-badge">10 sites</span>
+  <button class="btn-reset" onclick="resetFilters()">
+    <i class="ti ti-refresh" style="font-size:14px"></i> Réinitialiser
+  </button>
+</div>
+
+<div class="dashboard">
+  <div class="kpis" id="kpi-row"></div>
+
+  <div class="table-card">
+    <div class="table-scroll">
+      <table id="main-table">
+        <colgroup>
+          <col class="c-site"><col class="c-ville"><col class="c-surf"><col class="c-eff">
+          <col class="c-prio"><col class="c-etat"><col class="c-occ"><col class="c-dec">
+          <col class="c-score"><col class="c-opp"><col class="c-compat"><col class="c-act">
+        </colgroup>
+        <thead>
+          <tr>
+            <th onclick="sortBy('site')">Site <span class="si" id="s-site">↕</span></th>
+            <th onclick="sortBy('ville')">Ville <span class="si" id="s-ville">↕</span></th>
+            <th onclick="sortBy('surf')">m² SUB <span class="si" id="s-surf">↕</span></th>
+            <th onclick="sortBy('eff')">Effectifs <span class="si" id="s-eff">↕</span></th>
+            <th onclick="sortBy('prio_n')">Priorité <span class="si" id="s-prio_n">↕</span></th>
+            <th onclick="sortBy('etat_n')">État bâti <span class="si" id="s-etat_n">↕</span></th>
+            <th onclick="sortBy('occ')">Occ. LCNAS <span class="si" id="s-occ">↕</span></th>
+            <th onclick="sortBy('dec_n')">Décret tertiaire <span class="si" id="s-dec_n">↕</span></th>
+            <th onclick="sortBy('score')">Score priorité <span class="si" id="s-score">↕</span></th>
+            <th onclick="sortBy('opp')">Opportunité <span class="si" id="s-opp">↕</span></th>
+            <th onclick="sortBy('compat')">Compatibilité L.4121-5 <span class="si" id="s-compat">↕</span></th>
+            <th>Détail</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span style="font-weight:600;color:#172154;margin-right:4px">Priorité :</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#C0392B"></span>P0 — Urgent</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#8B6914"></span>P1 — Prioritaire (&lt;3 ans)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#078970"></span>P2 — Planifiable (3-7 ans)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#172154"></span>P3 — Surveillance</span>
+      <span style="margin-left:12px;font-weight:600;color:#172154;margin-right:4px">Décret :</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FDECEA;border:1px solid #C0392B"></span>Non conforme</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FEF5E0;border:1px solid #8B6914"></span>À risque</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#E8F8F3;border:1px solid #078970"></span>Conforme</span>
+      <span style="margin-left:auto;font-size:10px;color:#B4B4C8;font-style:italic">
+        Cliquez sur les en-têtes pour trier · Score de priorité : 0–100
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <strong>GreenFlex</strong> · Diagnostic Tranche ferme SDIE RGIF · Consultation AMO_2026-001 · Document confidentiel
+</div>
+
+<script>
+const SITES = [
+  {site:"Caserne Mohier",ville:"Maisons-Alfort",surf:3200,eff:48,prio:"P0",prio_n:0,etat:"P0",etat_n:0,occ:82,dec:"Non conforme",dec_n:2,score:95,opp:"Réhabilitation",compat:"Conditionnelle",note:"SSI armurerie hors service · Chaudière gaz 1989 · Décret tertiaire : -38% requis d'ici 2030"},
+  {site:"Caserne Kellermann",ville:"Paris 13e",surf:2800,eff:36,prio:"P0",prio_n:0,etat:"P1",etat_n:1,occ:75,dec:"À risque",dec_n:1,score:88,opp:"Réhabilitation",compat:"Conditionnelle",note:"Fissuration façade · Menuiseries simple vitrage · Décret tertiaire : -24% requis"},
+  {site:"Caserne de la Plaine",ville:"Saint-Denis",surf:4100,eff:62,prio:"P1",prio_n:1,etat:"P1",etat_n:1,occ:68,dec:"À risque",dec_n:1,score:76,opp:"Regroupement",compat:"Conditionnelle",note:"Toiture infiltrations actives · 4 LCNAS vacants >6 mois · Effectifs en baisse"},
+  {site:"Caserne du Pont",ville:"Créteil",surf:1900,eff:28,prio:"P1",prio_n:1,etat:"P2",etat_n:2,occ:91,dec:"Non conforme",dec_n:2,score:72,opp:"Réhabilitation",compat:"Favorable",note:"PMR non conforme (Ad'AP dépassé) · Sur-occupation LCNAS 91% · Décret : -29% requis"},
+  {site:"Caserne Foch",ville:"Vincennes",surf:3600,eff:54,prio:"P1",prio_n:1,etat:"P1",etat_n:1,occ:78,dec:"À risque",dec_n:1,score:68,opp:"Valorisation",compat:"Conditionnelle",note:"CVC en fin de vie · Foncier sous-utilisé : 1 200 m² libérables · Potentiel PV 80 kWc"},
+  {site:"Caserne Carnot",ville:"Montreuil",surf:2200,eff:33,prio:"P2",prio_n:2,etat:"P2",etat_n:2,occ:72,dec:"Conforme",dec_n:0,score:48,opp:"Réhabilitation",compat:"Favorable",note:"Menuiseries à remplacer horizon 5 ans · Bon état général · Conforme décret tertiaire"},
+  {site:"Caserne Gallieni",ville:"Beynes",surf:5200,eff:78,prio:"P2",prio_n:2,etat:"P2",etat_n:2,occ:85,dec:"À risque",dec_n:1,score:45,opp:"Réhabilitation",compat:"Favorable",note:"Parc mixte LST + logements · Énergie : -18% à gagner · Bâtiment bien entretenu"},
+  {site:"Caserne Vauban",ville:"Pontoise",surf:2900,eff:42,prio:"P2",prio_n:2,etat:"P3",etat_n:3,occ:64,dec:"Conforme",dec_n:0,score:38,opp:"Maintien",compat:"Favorable",note:"Bon état général · Sous-occupation LCNAS modérée · Aucune urgence technique identifiée"},
+  {site:"Caserne des Hauts",ville:"Nanterre",surf:1600,eff:24,prio:"P3",prio_n:3,etat:"P3",etat_n:3,occ:58,dec:"Conforme",dec_n:0,score:22,opp:"Maintien",compat:"Favorable",note:"Structure béton en bon état · PMR conforme · Énergie dans les objectifs · Maintenance courante"},
+  {site:"Caserne Rivoli",ville:"Courbevoie",surf:2400,eff:35,prio:"P3",prio_n:3,etat:"P3",etat_n:3,occ:70,dec:"Conforme",dec_n:0,score:18,opp:"Valorisation",compat:"Conditionnelle",note:"Excellent état général · Réserve foncière 600 m² non mobilisée · Potentiel TO2"},
+];
+
+let sortCol="score", sortDir=-1;
+
+document.getElementById("hd-date").textContent = new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"});
+
+function resetFilters(){
+  ["f-prio","f-dec","f-opp","f-compat"].forEach(id=>{
+    const el=document.getElementById(id);
+    el.value="";
+    el.classList.remove("active");
+  });
+  render();
+}
+
+function sortBy(col){
+  if(sortCol===col) sortDir*=-1;
+  else { sortCol=col; sortDir=-1; }
+  document.querySelectorAll(".si").forEach(e=>e.textContent="↕");
+  const el=document.getElementById("s-"+col);
+  if(el) el.textContent=sortDir===-1?"↓":"↑";
+  render();
+}
+
+function getFiltered(){
+  const fp=document.getElementById("f-prio").value;
+  const fd=document.getElementById("f-dec").value;
+  const fo=document.getElementById("f-opp").value;
+  const fc=document.getElementById("f-compat").value;
+  ["f-prio","f-dec","f-opp","f-compat"].forEach(id=>{
+    document.getElementById(id).classList.toggle("active",document.getElementById(id).value!=="");
+  });
+  return SITES.filter(s=>
+    (!fp||s.prio===fp)&&(!fd||s.dec===fd)&&(!fo||s.opp===fo)&&(!fc||s.compat===fc)
+  );
+}
+
+function scoreColor(v){
+  if(v>=80)return{bar:"#C0392B",txt:"#C0392B"};
+  if(v>=60)return{bar:"#8B6914",txt:"#8B6914"};
+  if(v>=40)return{bar:"#078970",txt:"#078970"};
+  return{bar:"#172154",txt:"#172154"};
+}
+function occColor(v){
+  if(v>88)return"#C0392B";
+  if(v>75)return"#8B6914";
+  return"#078970";
+}
+function prioClass(p){return{P0:"b-p0",P1:"b-p1",P2:"b-p2",P3:"b-p3"}[p]||"b-tag"}
+function decClass(d){return{"Conforme":"b-ok","À risque":"b-risk","Non conforme":"b-nc"}[d]||"b-tag"}
+function compatClass(c){return{"Favorable":"b-fav","Conditionnelle":"b-cond","Incompatible":"b-warn"}[c]||"b-tag"}
+
+function render(){
+  const rows=[...getFiltered()].sort((a,b)=>sortDir*(a[sortCol]>b[sortCol]?1:a[sortCol]<b[sortCol]?-1:0));
+  const tb=document.getElementById("tbody");
+  tb.innerHTML="";
+  const n=rows.length;
+  document.getElementById("count-badge").textContent=n+" site"+(n>1?"s":"")+" affiché"+(n>1?"s":"");
+  if(!n){
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td colspan="12" class="no-result">Aucun site ne correspond aux filtres sélectionnés</td>`;
+    tb.appendChild(tr);
+    renderKPIs([]);
+    return;
+  }
+  rows.forEach(s=>{
+    const sc=scoreColor(s.score);
+    const oc=occColor(s.occ);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td style="font-weight:600;color:#172154">${s.site}</td>
+      <td style="color:#50506D">${s.ville}</td>
+      <td style="font-weight:500">${s.surf.toLocaleString("fr-FR")}</td>
+      <td style="text-align:center">${s.eff}</td>
+      <td><span class="badge ${prioClass(s.prio)}">${s.prio}</span></td>
+      <td><span class="badge ${prioClass(s.etat)}">${s.etat}</span></td>
+      <td>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:${s.occ}%;background:${oc}"></div></div>
+          <span class="bar-val" style="color:${oc};font-weight:600">${s.occ}%</span>
+        </div>
+      </td>
+      <td><span class="badge ${decClass(s.dec)}">${s.dec}</span></td>
+      <td>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:${s.score}%;background:${sc.bar}"></div></div>
+          <span class="bar-val bold" style="color:${sc.txt}">${s.score}</span>
+        </div>
+      </td>
+      <td><span class="badge b-tag">${s.opp}</span></td>
+      <td><span class="badge ${compatClass(s.compat)}">${s.compat}</span></td>
+      <td>
+        <button class="detail-btn" title="${s.note}" onclick="alert('${s.site}\\n\\n${s.note}\\n\\nAuditeur : Ivo DOS SANTOS — GreenFlex')">
+          <i class="ti ti-info-circle" style="font-size:13px"></i> Voir
+        </button>
+      </td>
+    `;
+    tb.appendChild(tr);
+  });
+  renderKPIs(rows);
+}
+
+function renderKPIs(rows){
+  const p0=rows.filter(s=>s.prio==="P0").length;
+  const p1=rows.filter(s=>s.prio==="P1").length;
+  const nc=rows.filter(s=>s.dec==="Non conforme").length;
+  const aRisque=rows.filter(s=>s.dec==="À risque").length;
+  const surf=rows.reduce((a,s)=>a+s.surf,0);
+  const avgScore=rows.length?Math.round(rows.reduce((a,s)=>a+s.score,0)/rows.length):0;
+  const scoreC=avgScore>=70?"red":avgScore>=50?"amber":"green";
+  document.getElementById("kpi-row").innerHTML=`
+    <div class="kpi red"><div class="kpi-label">Sites urgents (P0)</div><div class="kpi-val red">${p0}</div><div class="kpi-sub">Intervention immédiate</div></div>
+    <div class="kpi amber"><div class="kpi-label">Sites prioritaires (P1)</div><div class="kpi-val amber">${p1}</div><div class="kpi-sub">Programmation &lt;3 ans</div></div>
+    <div class="kpi red"><div class="kpi-label">Non conformes décret</div><div class="kpi-val red">${nc}</div><div class="kpi-sub">${aRisque} à risque supplémentaire${aRisque>1?"s":""}</div></div>
+    <div class="kpi ${scoreC==='red'?'red':scoreC==='amber'?'amber':'green'}"><div class="kpi-label">Score moyen priorité</div><div class="kpi-val ${scoreC}">${avgScore}<span style="font-size:14px;font-weight:400">/100</span></div><div class="kpi-sub">Parc filtré</div></div>
+    <div class="kpi blue"><div class="kpi-label">Surface analysée</div><div class="kpi-val blue" style="font-size:20px">${surf.toLocaleString("fr-FR")}</div><div class="kpi-sub">m² SUB total</div></div>
+  `;
+}
+
+document.getElementById("s-score").textContent="↓";
+render();
+</script>
+</body>
+</html>

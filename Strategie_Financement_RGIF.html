@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stratégie de financement — 5,16 M€ P0-P1 RGIF | GreenFlex</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F2F5;color:#172154;font-size:14px}
+
+.header{background:#172154;display:flex;align-items:stretch}
+.header-logo{background:#21AD81;padding:14px 24px;font-weight:700;font-size:17px;color:#fff;min-width:150px;display:flex;align-items:center;letter-spacing:.5px}
+.header-title{padding:12px 24px;flex:1}
+.header-title h1{color:#fff;font-size:16px;font-weight:700}
+.header-title p{color:#B4B4C8;font-size:11px;margin-top:3px}
+.header-meta{padding:12px 24px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;border-left:3px solid #21AD81}
+.header-meta span{color:#B4B4C8;font-size:10px}
+.header-meta strong{color:#FFB71B;font-size:13px}
+
+.nav-bar{background:#fff;border-bottom:2px solid #21AD81;padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tab-btn{padding:6px 14px;border-radius:20px;border:1px solid #B4B4C8;background:#fff;color:#50506D;font-size:11px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:5px;transition:all .15s}
+.tab-btn:hover{background:#EAECF4;color:#172154}
+.tab-btn.active{background:#172154;color:#fff;border-color:#172154}
+.nav-right{margin-left:auto;display:flex;gap:8px}
+.nav-btn-sm{padding:5px 12px;border-radius:20px;border:1px solid #B4B4C8;background:#fff;color:#50506D;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.nav-btn-sm:hover{background:#EAECF4}
+
+.dash{padding:16px 20px}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.kpi{background:#fff;border-radius:8px;padding:13px 12px;border-top:4px solid #21AD81;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi.red{border-top-color:#C0392B}
+.kpi.green{border-top-color:#21AD81}
+.kpi.amber{border-top-color:#8B6914}
+.kpi.blue{border-top-color:#172154}
+.kpi.purple{border-top-color:#8E44AD}
+.kpi-label{font-size:10px;color:#50506D;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.kpi-val{font-size:22px;font-weight:700;line-height:1.1}
+.kpi-val.red{color:#C0392B}
+.kpi-val.green{color:#21AD81}
+.kpi-val.amber{color:#8B6914}
+.kpi-val.blue{color:#172154}
+.kpi-val.purple{color:#8E44AD}
+.kpi-sub{font-size:10px;color:#B4B4C8;margin-top:3px}
+
+.section-label{font-size:13px;font-weight:700;color:#172154;margin:20px 0 12px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:#E5E7EB}
+
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fin-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.fin-grid.cols1{grid-template-columns:1fr}
+
+.fin-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.fin-card.featured{border:2px solid #21AD81}
+
+.fc-head{padding:12px 14px;display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1px solid #F0F2F5}
+.fc-head-left{display:flex;align-items:flex-start;gap:10px}
+.fc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.fc-icon.green{background:#E8F8F3;color:#078970}
+.fc-icon.blue{background:#EAECF4;color:#172154}
+.fc-icon.amber{background:#FEF5E0;color:#8B6914}
+.fc-icon.purple{background:#F5EEF8;color:#8E44AD}
+.fc-icon.red{background:#FDECEA;color:#C0392B}
+.fc-icon.teal{background:#E1F5EE;color:#0F6E56}
+.fc-name{font-size:13px;font-weight:700;color:#172154;margin-bottom:3px}
+.fc-source{font-size:10px;color:#50506D}
+.fc-badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.b-green{background:#E8F8F3;color:#078970}
+.b-amber{background:#FEF5E0;color:#8B6914}
+.b-red{background:#FDECEA;color:#C0392B}
+.b-blue{background:#EAECF4;color:#172154}
+.b-purple{background:#F5EEF8;color:#8E44AD}
+.b-grey{background:#F0F2F5;color:#50506D}
+
+.fc-body{padding:12px 14px}
+.fc-amount{font-size:22px;font-weight:700;color:#172154;margin-bottom:4px}
+.fc-amount span{font-size:13px;font-weight:400;color:#50506D}
+.fc-desc{font-size:12px;color:#50506D;line-height:1.5;margin-bottom:10px}
+.fc-rows{display:flex;flex-direction:column;gap:6px}
+.fc-row{display:flex;align-items:flex-start;gap:7px;font-size:11px}
+.fc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.fc-row-text{color:#50506D;line-height:1.4;flex:1}
+.fc-row-text strong{color:#172154;font-weight:600}
+
+.fc-foot{padding:9px 14px;background:#F8F9FA;border-top:1px solid #F0F2F5;display:flex;align-items:center;justify-content:space-between}
+.fc-foot-label{font-size:10px;color:#50506D;font-weight:600;text-transform:uppercase}
+.fc-foot-val{font-size:11px;font-weight:700}
+
+.warning-box{background:#FEF5E0;border:1px solid #FAC775;border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+.warning-box .wi{color:#8B6914;font-size:16px;flex-shrink:0;margin-top:1px}
+.warning-box p{font-size:12px;color:#633806;line-height:1.5}
+.warning-box strong{font-weight:700}
+
+.info-box{background:#E8F8F3;border:1px solid #9FE1CB;border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+.info-box .ii{color:#078970;font-size:16px;flex-shrink:0;margin-top:1px}
+.info-box p{font-size:12px;color:#04342C;line-height:1.5}
+
+.synth-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.synth-table th{background:#172154;color:#B4B4C8;padding:9px 12px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.synth-table td{padding:10px 12px;border-bottom:1px solid #F0F2F5;color:#172154;vertical-align:middle}
+.synth-table tr:last-child td{border-bottom:none}
+.synth-table tr:hover td{background:#F8F9FA}
+.synth-table .total-row td{background:#172154;color:#fff;font-weight:700}
+.synth-table .total-row td .green{color:#21AD81}
+
+.timeline{display:flex;flex-direction:column;gap:0;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.tl-item{display:flex;gap:0;border-bottom:1px solid #F0F2F5}
+.tl-item:last-child{border-bottom:none}
+.tl-phase{width:140px;flex-shrink:0;padding:14px 16px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid #F0F2F5}
+.tl-phase-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.tl-phase-dur{font-size:11px;color:#50506D}
+.tl-content{flex:1;padding:14px 16px}
+.tl-title{font-size:12px;font-weight:700;color:#172154;margin-bottom:6px}
+.tl-actions{display:flex;flex-direction:column;gap:4px}
+.tl-action{display:flex;align-items:center;gap:6px;font-size:11px;color:#50506D}
+.tl-action i{font-size:12px;flex-shrink:0}
+.tl-amount{width:100px;flex-shrink:0;padding:14px 12px;display:flex;align-items:center;justify-content:center;border-left:1px solid #F0F2F5}
+.tl-amount-val{font-size:13px;font-weight:700;text-align:center}
+
+.charts-row{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-bottom:14px}
+.chart-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px}
+.chart-title{font-size:11px;font-weight:700;color:#50506D;margin-bottom:12px;text-transform:uppercase;letter-spacing:.3px}
+.legend-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:10px;color:#50506D}
+.legend-item{display:flex;align-items:center;gap:4px}
+.legend-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+.bottom-bar{background:#172154;border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px}
+.bt-left h3{font-size:15px;font-weight:700;color:#fff}
+.bt-left h3 .green{color:#21AD81}
+.bt-left h3 .yellow{color:#FFB71B}
+.bt-left p{font-size:11px;color:#B4B4C8;margin-top:4px}
+.bt-btns{display:flex;gap:8px;flex-wrap:wrap}
+.bt-btn{padding:8px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:11px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:5px}
+.bt-btn:hover{background:rgba(255,255,255,.1)}
+.bt-btn.green{background:#21AD81;border-color:#21AD81}
+.bt-btn.green:hover{background:#078970}
+
+.footer{background:#172154;color:#B4B4C8;text-align:center;padding:10px;font-size:9px}
+.footer strong{color:#21AD81}
+
+.tab-section{display:none}
+.tab-section.active{display:block}
+
+@media print{
+  .nav-bar,.bt-btns{display:none}
+  body{background:#fff}
+  .dash{padding:8px}
+  .tab-section{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">GreenFlex</div>
+  <div class="header-title">
+    <h1>Stratégie de financement — 5,16 M€ P0-P1 RGIF</h1>
+    <p>Mobilisation des dispositifs FIM · Fonds Énergies · ACTEE · BEI ELENA · CEE · DSIL · Consultation AMO_2026-001</p>
+  </div>
+  <div class="header-meta">
+    <span>Mission SDIE RGIF</span>
+    <strong>GreenFlex · Mai 2026</strong>
+    <span style="margin-top:4px" id="hd-date"></span>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <button class="tab-btn active" onclick="showTab('vue')"><i class="ti ti-chart-pie" style="font-size:13px"></i> Vue d'ensemble</button>
+  <button class="tab-btn" onclick="showTab('dispositifs')"><i class="ti ti-cash" style="font-size:13px"></i> Dispositifs détaillés</button>
+  <button class="tab-btn" onclick="showTab('plan')"><i class="ti ti-calendar" style="font-size:13px"></i> Plan de mobilisation</button>
+  <button class="tab-btn" onclick="showTab('synth')"><i class="ti ti-table" style="font-size:13px"></i> Tableau de synthèse</button>
+  <div class="nav-right">
+    <button class="nav-btn-sm" onclick="window.print()"><i class="ti ti-printer" style="font-size:12px"></i> Imprimer</button>
+    <button class="nav-btn-sm" onclick="window.location.href='Plan_Action_Budgetaire_P0P1_RGIF.html'"><i class="ti ti-arrow-left" style="font-size:12px"></i> Plan P0-P1</button>
+  </div>
+</div>
+
+<div class="dash">
+
+<!-- ═══════════════════════════════════════════════════════ VUE D'ENSEMBLE -->
+<div class="tab-section active" id="tab-vue">
+
+  <div class="kpis">
+    <div class="kpi red"><div class="kpi-label">Besoin total</div><div class="kpi-val red">5,16 M€</div><div class="kpi-sub">5 sites · P0 + P1</div></div>
+    <div class="kpi green"><div class="kpi-label">Financements mobilisables</div><div class="kpi-val green">3,72 M€</div><div class="kpi-sub">72% du besoin couvert</div></div>
+    <div class="kpi amber"><div class="kpi-label">Reste à charge RGIF</div><div class="kpi-val amber">1,44 M€</div><div class="kpi-sub">28% — autofinancement</div></div>
+    <div class="kpi blue"><div class="kpi-label">Dispositifs mobilisés</div><div class="kpi-val blue">6</div><div class="kpi-sub">FIM · Fonds É. · ACTEE · CEE · DSIL · ELENA</div></div>
+    <div class="kpi purple"><div class="kpi-label">Dossiers à déposer</div><div class="kpi-val purple">4</div><div class="kpi-sub">Dès validation TF</div></div>
+  </div>
+
+  <div class="info-box">
+    <i class="ti ti-info-circle ii"></i>
+    <p><strong>Contexte spécifique gendarmerie :</strong> Le patrimoine RGIF relève du Ministère de l'Intérieur et d'une gestion mixte domaniale/conventionnée. Certains dispositifs de droit commun (CEE, DSIL) nécessitent une montage juridique spécifique pour être mobilisés sur ce type de patrimoine. GreenFlex accompagnera la RGIF dans l'analyse d'éligibilité site par site dès la validation de la tranche ferme.</p>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Couverture financière par dispositif (k€)</div>
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-dot" style="background:#21AD81"></span>FIM MGP — 800 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#078970"></span>Fonds Énergies — 620 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8B6914"></span>ACTEE — 480 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#172154"></span>CEE — 950 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#8E44AD"></span>BEI ELENA — 620 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#C0392B"></span>DSIL — 250 k€</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#B4B4C8"></span>Reste à charge — 1 440 k€</span>
+      </div>
+      <div style="position:relative;width:100%;height:220px">
+        <canvas id="chart-cover" role="img" aria-label="Répartition des financements mobilisables pour les 5,16 M€ d'investissement P0-P1 RGIF">FIM 800k, Fonds Énergies 620k, ACTEE 480k, CEE 950k, ELENA 620k, DSIL 250k, Reste à charge 1440k.</canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Affectation par site (k€ financés estimés)</div>
+      <div style="position:relative;width:100%;height:250px">
+        <canvas id="chart-sites" role="img" aria-label="Financement estimé par site : Mohier, Kellermann, La Plaine, Du Pont, Foch">Mohier 310k, Kellermann 300k, La Plaine 230k, Du Pont 300k, Foch 420k financés.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <i class="ti ti-alert-triangle wi"></i>
+    <p><strong>Point d'attention — Actions P0 immédiates (248 k€) :</strong> La requalification SSI armurerie, l'expertise structure façade et la mise en conformité PMR ne peuvent pas attendre l'instruction des dossiers de financement. Ces 3 actions doivent être engagées sur fonds propres RGIF immédiatement, avec remboursement partiel possible via CEE et ACTEE a posteriori sur les volets énergie associés.</p>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════ DISPOSITIFS DÉTAILLÉS -->
+<div class="tab-section" id="tab-dispositifs">
+
+  <div class="section-label"><span style="font-weight:700">Dispositifs prioritaires — fort levier financier</span></div>
+
+  <div class="fin-grid">
+
+    <!-- CEE -->
+    <div class="fin-card featured">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon amber"><i class="ti ti-bolt"></i></div>
+          <div>
+            <div class="fc-name">Certificats d'Économies d'Énergie (CEE)</div>
+            <div class="fc-source">Obligés énergétiques · ADEME · Fiche BAT-TH-116 / BAT-EN-101</div>
+          </div>
+        </div>
+        <div class="fc-badges">
+          <span class="badge b-green">Priorité haute</span>
+          <span class="badge b-amber">Dossier 3-6 mois</span>
+        </div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-amount">950 k€ <span>estimés</span></div>
+        <div class="fc-desc">Dispositif le plus accessible et le plus immédiat pour les travaux d'efficacité énergétique. S'applique directement aux actions CVC (PAC), isolation (ITE), menuiseries et éclairage identifiées sur les 5 sites P0-P1.</div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Remplacement chaudières → PAC</strong> — fiches BAT-TH-116 + BAT-TH-141 · Casernes Mohier et Foch · ~340 k€ CEE estimés</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Isolation thermique extérieure</strong> — fiche BAT-EN-101 · Casernes Foch et Du Pont · ~280 k€ CEE estimés</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Remplacement menuiseries</strong> — fiche BAT-EN-104 · Casernes Mohier et Kellermann · ~190 k€ CEE estimés</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8B6914"></div><div class="fc-row-text">Nécessite un obligé partenaire (EDF, TotalEnergies, ENGIE…) · GreenFlex accompagne la mise en concurrence</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Montant estimé</div>
+        <div class="fc-foot-val" style="color:#8B6914">~950 k€ (18% du besoin total)</div>
+      </div>
+    </div>
+
+    <!-- BEI ELENA -->
+    <div class="fin-card featured">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon purple"><i class="ti ti-building-bank"></i></div>
+          <div>
+            <div class="fc-name">BEI ELENA — European Local Energy Assistance</div>
+            <div class="fc-source">Banque Européenne d'Investissement · Assistance technique</div>
+          </div>
+        </div>
+        <div class="fc-badges">
+          <span class="badge b-purple">Dossier stratégique</span>
+          <span class="badge b-amber">6-12 mois d'instruction</span>
+        </div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-amount">620 k€ <span>assistance technique estimée</span></div>
+        <div class="fc-desc">ELENA finance jusqu'à 90% des coûts d'assistance technique préalables aux investissements énergétiques (études, AMO, préparation des marchés). Particulièrement adapté au SDIE RGIF car le programme vise exactement ce type de diagnostic préalable à une rénovation massive.</div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#8E44AD"></div><div class="fc-row-text"><strong>Conditions d'éligibilité</strong> — Investissements projetés ≥ 30 M€ sur 3 ans · Maître d'ouvrage public · Dimension européenne</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8E44AD"></div><div class="fc-row-text"><strong>Ce que ELENA finance</strong> — Études de faisabilité · Audits énergétiques · Assistance AMO · Préparation appels d'offres travaux</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8B6914"></div><div class="fc-row-text"><strong>Point de vigilance</strong> — Le seuil de 30 M€ implique de consolider le SDIE IDF avec d'autres régions ou de l'articuler avec un programme national DGGN. GreenFlex évalue la faisabilité en TO2.</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text">Contact BEI : bureau Paris · Délai de réponse 6-12 mois · Dépôt recommandé dès validation TF</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Taux de couverture ELENA</div>
+        <div class="fc-foot-val" style="color:#8E44AD">Jusqu'à 90% des coûts AT · Estimation : ~620 k€</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label"><span style="font-weight:700">Dispositifs complémentaires</span></div>
+  <div class="fin-grid cols3">
+
+    <!-- ACTEE -->
+    <div class="fin-card">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon teal"><i class="ti ti-leaf"></i></div>
+          <div>
+            <div class="fc-name">Programme ACTEE</div>
+            <div class="fc-source">Action des Collectivités pour l'Efficacité Énergétique · FNCCR · CEE</div>
+          </div>
+        </div>
+        <div class="fc-badges"><span class="badge b-green">Accessible</span></div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-amount" style="font-size:18px">480 k€ <span>estimés</span></div>
+        <div class="fc-desc">Finance postes d'économes de flux, outils de suivi, audits énergétiques et études de maîtrise d'œuvre. Programme CEE dédié aux collectivités — à vérifier l'éligibilité gendarmerie (assimilé collectivité pour certains volets).</div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#0F6E56"></div><div class="fc-row-text"><strong>Volet RH</strong> — Financement poste économe de flux RGIF · ~80 k€/an sur 3 ans</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#0F6E56"></div><div class="fc-row-text"><strong>Volet outils</strong> — Logiciel suivi fluides type Advizeo · ~40 k€</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#0F6E56"></div><div class="fc-row-text"><strong>Volet études</strong> — Audits énergétiques TO1 · ~360 k€ subventionnables</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Taux de couverture</div>
+        <div class="fc-foot-val" style="color:#0F6E56">Jusqu'à 80% des coûts éligibles</div>
+      </div>
+    </div>
+
+    <!-- Fonds Énergies -->
+    <div class="fin-card">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon green"><i class="ti ti-solar-panel"></i></div>
+          <div>
+            <div class="fc-name">Fonds Énergies MGP</div>
+            <div class="fc-source">Métropole du Grand Paris · Depuis avril 2023</div>
+          </div>
+        </div>
+        <div class="fc-badges"><span class="badge b-amber">Éligibilité à vérifier</span></div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-amount" style="font-size:18px">620 k€ <span>estimés</span></div>
+        <div class="fc-desc">Le Fonds Énergies MGP soutient les projets contribuant à l'accélération de la transition énergétique sur le territoire métropolitain. Son articulation avec un patrimoine d'État (gendarmerie) doit être vérifiée — une convention spécifique MGP/DGGN pourrait l'ouvrir.</div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Projets PV</strong> — Caserne Foch (80 kWc) éligible si portage MGP · ~180 k€</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Rénovation énergétique</strong> — Sites en forte inadéquation décret tertiaire prioritaires · ~440 k€</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8B6914"></div><div class="fc-row-text">Convention MGP/Ministère de l'Intérieur à formaliser · GreenFlex assiste la RGIF dans le montage</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Taux de subvention</div>
+        <div class="fc-foot-val" style="color:#21AD81">30 à 50% selon opération</div>
+      </div>
+    </div>
+
+    <!-- DSIL -->
+    <div class="fin-card">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon blue"><i class="ti ti-landmark"></i></div>
+          <div>
+            <div class="fc-name">DSIL — Dotation Soutien Investissement Local</div>
+            <div class="fc-source">Préfecture de région · Enveloppe annuelle · Axe rénovation énergétique</div>
+          </div>
+        </div>
+        <div class="fc-badges"><span class="badge b-blue">À instruire</span></div>
+      </div>
+      <div class="fc-body">
+        <div class="fc-amount" style="font-size:18px">250 k€ <span>estimés</span></div>
+        <div class="fc-desc">La DSIL finance les rénovations énergétiques de bâtiments publics via les préfectures. Un arrêté de subvention État peut être mobilisé sur les sites les plus critiques en lien avec le Préfet de région IDF.</div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#172154"></div><div class="fc-row-text"><strong>Sites cibles</strong> — Casernes Mohier et Du Pont (non-conformité décret + PMR) · Dossiers prioritaires</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#172154"></div><div class="fc-row-text"><strong>Calendrier</strong> — Appel à projets annuel · Dépôt avant fin T1 de chaque année</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8B6914"></div><div class="fc-row-text">Articulation DGGN/Préfecture à formaliser · Montage dossier à anticiper 6 mois avant</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Taux de subvention</div>
+        <div class="fc-foot-val" style="color:#172154">20 à 30% des coûts éligibles</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label"><span style="font-weight:700">Dispositif spécifique — FIM Métropole du Grand Paris</span></div>
+  <div class="fin-grid cols1">
+    <div class="fin-card">
+      <div class="fc-head">
+        <div class="fc-head-left">
+          <div class="fc-icon green"><i class="ti ti-building-community"></i></div>
+          <div>
+            <div class="fc-name">Fonds d'Investissement Métropolitain (FIM) — Métropole du Grand Paris</div>
+            <div class="fc-source">MGP · Depuis 2016 · 350 dossiers traités · Rénovation énergétique patrimoniale</div>
+          </div>
+        </div>
+        <div class="fc-badges">
+          <span class="badge b-amber">Convention MGP/État requise</span>
+          <span class="badge b-green">Fort potentiel</span>
+        </div>
+      </div>
+      <div class="fc-body" style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px">
+        <div>
+          <div class="fc-amount" style="font-size:18px">800 k€ <span>estimés</span></div>
+          <div class="fc-desc">Le FIM soutient les projets d'investissement des communes et EPT sur le périmètre métropolitain. Une convention-cadre MGP/DGGN permettrait d'ouvrir ce dispositif aux emprises gendarmerie en IDF, dans une logique de mutualisation des outils métropolitains de transition énergétique.</div>
+        </div>
+        <div class="fc-rows">
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Précédent existant</strong> — La MGP a financé des travaux sur patrimoine mixte via le FIM dans 11 EPT</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Sites éligibles potentiels</strong> — Les 5 casernes P0-P1 toutes situées dans le périmètre métropolitain</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#21AD81"></div><div class="fc-row-text"><strong>Levier politique</strong> — Cohérence avec PCAEM et SDEM MGP · Argument fort pour l'instruction du dossier</div></div>
+          <div class="fc-row"><div class="fc-dot" style="background:#8B6914"></div><div class="fc-row-text"><strong>Action requise</strong> — Prise de contact MGP/Direction des affaires institutionnelles + DGGN à initier dès TO2</div></div>
+        </div>
+      </div>
+      <div class="fc-foot">
+        <div class="fc-foot-label">Taux de cofinancement FIM</div>
+        <div class="fc-foot-val" style="color:#21AD81">20 à 40% selon nature des travaux · Plafond à confirmer avec MGP</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ PLAN DE MOBILISATION -->
+<div class="tab-section" id="tab-plan">
+
+  <div class="info-box">
+    <i class="ti ti-bulb ii"></i>
+    <p><strong>Logique de séquençage :</strong> Les financements se mobilisent en parallèle des tranches du SDIE. La tranche ferme produit les données nécessaires aux dossiers (diagnostics, consommations, surfaces). La TO1 affine les éligibilités CEE et ACTEE. La TO2 ouvre les dossiers ELENA et FIM. Ne pas attendre la fin du SDIE pour déposer les premiers dossiers.</p>
+  </div>
+
+  <div class="section-label"><span style="font-weight:700">Calendrier de mobilisation des financements</span></div>
+  <div class="timeline">
+    <div class="tl-item" style="background:#FDECEA">
+      <div class="tl-phase" style="border-right-color:#F09595">
+        <div class="tl-phase-label" style="color:#C0392B">Immédiat</div>
+        <div class="tl-phase-dur">Avant commission sécurité</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-title" style="color:#C0392B">Actions P0 non reportables — financement fonds propres RGIF</div>
+        <div class="tl-actions">
+          <div class="tl-action"><i class="ti ti-alert-triangle" style="color:#C0392B"></i>SSI armurerie Mohier — engagement immédiat obligatoire</div>
+          <div class="tl-action"><i class="ti ti-alert-triangle" style="color:#C0392B"></i>Expertise structure façade Kellermann — périmètre sécurité à étudier</div>
+          <div class="tl-action"><i class="ti ti-alert-triangle" style="color:#C0392B"></i>PMR Du Pont — Ad'AP dépassé, risque juridique immédiat</div>
+        </div>
+      </div>
+      <div class="tl-amount">
+        <div class="tl-amount-val" style="color:#C0392B">248 k€<br><span style="font-size:10px;font-weight:400;color:#50506D">Fonds propres<br>Récupération CEE<br>partielle possible</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-phase">
+        <div class="tl-phase-label" style="color:#8B6914">TF — M1-M3</div>
+        <div class="tl-phase-dur">Phase préparation + visites</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-title">Constitution des dossiers de financement énergie</div>
+        <div class="tl-actions">
+          <div class="tl-action"><i class="ti ti-bolt" style="color:#8B6914"></i>Identification et mise en concurrence des obligés CEE (EDF, TotalEnergies, ENGIE) — GreenFlex assiste</div>
+          <div class="tl-action"><i class="ti ti-leaf" style="color:#0F6E56"></i>Dépôt dossier ACTEE — volet études TO1 (audits énergétiques, AMO) + volet outils (logiciel suivi fluides)</div>
+          <div class="tl-action"><i class="ti ti-landmark" style="color:#172154"></i>Prise de contact Préfecture IDF — DSIL volet rénovation énergétique (appel à projets T1 2027)</div>
+        </div>
+      </div>
+      <div class="tl-amount">
+        <div class="tl-amount-val" style="color:#8B6914">~520 k€<br><span style="font-size:10px;font-weight:400;color:#50506D">ACTEE + DSIL<br>premiers dossiers</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="background:#E8F8F3">
+      <div class="tl-phase" style="border-right-color:#9FE1CB">
+        <div class="tl-phase-label" style="color:#078970">TF — M4-M7</div>
+        <div class="tl-phase-dur">Diagnostics + opportunités</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-title" style="color:#078970">Mobilisation des dispositifs principaux</div>
+        <div class="tl-actions">
+          <div class="tl-action"><i class="ti ti-bolt" style="color:#8B6914"></i>Finalisation dossiers CEE site par site — fiches travaux identifiées (PAC, ITE, menuiseries) · ~950 k€ attendus</div>
+          <div class="tl-action"><i class="ti ti-building-community" style="color:#21AD81"></i>Dépôt dossier FIM MGP — sur la base du diagnostic TF · Convention MGP/DGGN à finaliser · ~800 k€</div>
+          <div class="tl-action"><i class="ti ti-solar-panel" style="color:#21AD81"></i>Instruction Fonds Énergies MGP — dossier site par site (Mohier, Kellermann, Du Pont prioritaires)</div>
+        </div>
+      </div>
+      <div class="tl-amount">
+        <div class="tl-amount-val" style="color:#078970">~1,75 M€<br><span style="font-size:10px;font-weight:400;color:#50506D">CEE + FIM<br>+ Fonds Énergies</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-phase">
+        <div class="tl-phase-label" style="color:#0F6E56">TO1 — M8-M10</div>
+        <div class="tl-phase-dur">Diagnostic énergétique</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-title">Optimisation des dossiers CEE et ACTEE</div>
+        <div class="tl-actions">
+          <div class="tl-action"><i class="ti ti-bolt" style="color:#8B6914"></i>Affinage montants CEE sur la base des données énergétiques TO1 — calcul gisement précis par opération</div>
+          <div class="tl-action"><i class="ti ti-leaf" style="color:#0F6E56"></i>ACTEE — dossier études énergie complémentaires + ajustements plan de financement global</div>
+          <div class="tl-action"><i class="ti ti-building-bank" style="color:#8E44AD"></i>Prise de contact BEI ELENA — évaluation éligibilité, consolidation périmètre (possibilité multi-régions DGGN)</div>
+        </div>
+      </div>
+      <div class="tl-amount">
+        <div class="tl-amount-val" style="color:#0F6E56">Affinage<br>+ ELENA<br><span style="font-size:10px;font-weight:400;color:#50506D">contact BEI</span></div>
+      </div>
+    </div>
+
+    <div class="tl-item" style="background:#F5EEF8">
+      <div class="tl-phase" style="border-right-color:#D7BDE2">
+        <div class="tl-phase-label" style="color:#8E44AD">TO2 — M11-M13</div>
+        <div class="tl-phase-dur">Scénarios d'évolution</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-title" style="color:#8E44AD">Dossier BEI ELENA — financement stratégique long terme</div>
+        <div class="tl-actions">
+          <div class="tl-action"><i class="ti ti-building-bank" style="color:#8E44AD"></i>Dépôt dossier ELENA — assisté par GreenFlex · Objectif : financer 90% des coûts AT futurs DGGN IDF</div>
+          <div class="tl-action"><i class="ti ti-chart-area" style="color:#8E44AD"></i>Constitution du dossier investissement global pluriannuel (base scénarios TO2) — requis par ELENA</div>
+          <div class="tl-action"><i class="ti ti-building-community" style="color:#21AD81"></i>Suivi dossiers FIM + Fonds Énergies — instructions en cours · Premières notifications attendues</div>
+        </div>
+      </div>
+      <div class="tl-amount">
+        <div class="tl-amount-val" style="color:#8E44AD">~620 k€<br><span style="font-size:10px;font-weight:400;color:#50506D">BEI ELENA<br>AT estimée</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ TABLEAU SYNTHÈSE -->
+<div class="tab-section" id="tab-synth">
+
+  <div class="section-label"><span style="font-weight:700">Tableau de synthèse — Plan de financement global</span></div>
+  <table class="synth-table">
+    <thead>
+      <tr>
+        <th>Dispositif</th>
+        <th>Porteur</th>
+        <th>Type</th>
+        <th>Montant estimé</th>
+        <th>% couverture</th>
+        <th>Actions éligibles</th>
+        <th>Horizon dépôt</th>
+        <th>Éligibilité RGIF</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:700">CEE — Certificats d'Économies d'Énergie</td>
+        <td>Obligés énergétiques</td>
+        <td><span class="badge b-amber">Subvention travaux</span></td>
+        <td style="font-weight:700;color:#8B6914">~950 k€</td>
+        <td>18%</td>
+        <td>PAC, ITE, menuiseries, éclairage</td>
+        <td>Dès TF M2</td>
+        <td><span class="badge b-green">Confirmée</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">FIM — Fonds d'Investissement Métropolitain</td>
+        <td>Métropole Grand Paris</td>
+        <td><span class="badge b-green">Subvention investissement</span></td>
+        <td style="font-weight:700;color:#21AD81">~800 k€</td>
+        <td>15%</td>
+        <td>Rénovation énergétique tous sites</td>
+        <td>TF M4-M7</td>
+        <td><span class="badge b-amber">Convention requise</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">BEI ELENA</td>
+        <td>Banque Européenne d'Investissement</td>
+        <td><span class="badge b-purple">Assistance technique</span></td>
+        <td style="font-weight:700;color:#8E44AD">~620 k€</td>
+        <td>12%</td>
+        <td>Études, AMO, préparation marchés</td>
+        <td>TO2 M11-M13</td>
+        <td><span class="badge b-amber">Seuil 30 M€ à vérifier</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Fonds Énergies MGP</td>
+        <td>Métropole Grand Paris</td>
+        <td><span class="badge b-green">Subvention investissement</span></td>
+        <td style="font-weight:700;color:#21AD81">~620 k€</td>
+        <td>12%</td>
+        <td>PV, rénovation énergétique, décret tertiaire</td>
+        <td>TF M4-M7</td>
+        <td><span class="badge b-amber">Éligibilité à confirmer</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">ACTEE — Programme FNCCR</td>
+        <td>FNCCR / Obligés CEE</td>
+        <td><span class="badge b-teal" style="background:#E1F5EE;color:#0F6E56">Études + RH</span></td>
+        <td style="font-weight:700;color:#0F6E56">~480 k€</td>
+        <td>9%</td>
+        <td>Audits énergétiques, AMO, économe de flux</td>
+        <td>TF M1-M3</td>
+        <td><span class="badge b-amber">Assimilé collectivité à vérifier</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">DSIL — Dotation Soutien Investissement Local</td>
+        <td>Préfecture IDF · État</td>
+        <td><span class="badge b-blue">Subvention État</span></td>
+        <td style="font-weight:700;color:#172154">~250 k€</td>
+        <td>5%</td>
+        <td>Rénovation énergie sites critiques P0-P1</td>
+        <td>T1 2027</td>
+        <td><span class="badge b-green">Confirmée</span></td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="3">TOTAL FINANCEMENTS MOBILISABLES</td>
+        <td><span class="green">~3,72 M€</span></td>
+        <td><span class="green">72%</span></td>
+        <td colspan="2">Estimation macro — à affiner dossier par dossier</td>
+        <td></td>
+      </tr>
+      <tr style="background:#FEF5E0">
+        <td colspan="3" style="font-weight:700;color:#8B6914">RESTE À CHARGE RGIF / DGGN</td>
+        <td style="font-weight:700;color:#C0392B">~1,44 M€</td>
+        <td style="font-weight:700;color:#C0392B">28%</td>
+        <td colspan="3" style="font-size:11px;color:#50506D">Autofinancement · Possible emprunt BEI direct si programme pluriannuel constitué · Lissage sur 3-5 ans</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning-box" style="margin-top:14px">
+    <i class="ti ti-alert-triangle wi"></i>
+    <p><strong>Important — Non-cumul des aides :</strong> Certains dispositifs ne peuvent pas être cumulés sur la même assiette de dépenses. Le CEE et le Fonds Énergies MGP peuvent être cumulés si l'assiette est distincte. CEE + ACTEE sont cumulables sur des volets différents (travaux vs. études). GreenFlex assurera la gestion du plan de financement pour éviter tout risque de double financement.</p>
+  </div>
+
+  <div class="section-label" style="margin-top:20px"><span style="font-weight:700">Répartition du financement par site</span></div>
+  <table class="synth-table">
+    <thead>
+      <tr>
+        <th>Site</th>
+        <th>Priorité</th>
+        <th>Budget total estimé</th>
+        <th>CEE estimés</th>
+        <th>Subventions (FIM+Fonds É.+DSIL)</th>
+        <th>ACTEE + ELENA</th>
+        <th>Reste à charge</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:700">Caserne Mohier — Maisons-Alfort</td>
+        <td><span class="badge b-red">P0</span></td>
+        <td style="font-weight:700">430 k€</td>
+        <td style="color:#8B6914;font-weight:600">~190 k€</td>
+        <td style="color:#21AD81;font-weight:600">~120 k€</td>
+        <td style="color:#0F6E56;font-weight:600">~40 k€</td>
+        <td style="color:#C0392B;font-weight:700">~80 k€</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Caserne Kellermann — Paris 13e</td>
+        <td><span class="badge b-red">P0</span></td>
+        <td style="font-weight:700">415 k€</td>
+        <td style="color:#8B6914;font-weight:600">~145 k€</td>
+        <td style="color:#21AD81;font-weight:600">~115 k€</td>
+        <td style="color:#0F6E56;font-weight:600">~40 k€</td>
+        <td style="color:#C0392B;font-weight:700">~115 k€</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Caserne de la Plaine — Saint-Denis</td>
+        <td><span class="badge b-amber">P1</span></td>
+        <td style="font-weight:700">315 k€</td>
+        <td style="color:#8B6914;font-weight:600">~60 k€</td>
+        <td style="color:#21AD81;font-weight:600">~100 k€</td>
+        <td style="color:#0F6E56;font-weight:600">~70 k€</td>
+        <td style="color:#C0392B;font-weight:700">~85 k€</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Caserne du Pont — Créteil</td>
+        <td><span class="badge b-amber">P1</span></td>
+        <td style="font-weight:700">415 k€</td>
+        <td style="color:#8B6914;font-weight:600">~180 k€</td>
+        <td style="color:#21AD81;font-weight:600">~120 k€</td>
+        <td style="color:#0F6E56;font-weight:600">~35 k€</td>
+        <td style="color:#C0392B;font-weight:700">~80 k€</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Caserne Foch — Vincennes</td>
+        <td><span class="badge b-amber">P1</span></td>
+        <td style="font-weight:700">583 k€</td>
+        <td style="color:#8B6914;font-weight:600">~375 k€</td>
+        <td style="color:#21AD81;font-weight:600">~115 k€</td>
+        <td style="color:#0F6E56;font-weight:600">~93 k€</td>
+        <td style="color:#C0392B;font-weight:700">~0 k€</td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="2">TOTAL</td>
+        <td>5 158 k€</td>
+        <td><span class="green">~950 k€</span></td>
+        <td><span class="green">~570 k€</span></td>
+        <td><span class="green">~278 k€</span></td>
+        <td style="color:#FFB71B">~1 440 k€ (28%)</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- BARRE TOTALE -->
+<div class="bottom-bar">
+  <div class="bt-left">
+    <h3>Financement mobilisable : <span class="green">~3,72 M€</span> sur <span class="yellow">5,16 M€</span> — reste à charge : ~1,44 M€ (28%)</h3>
+    <p>Estimation macro · Non contractuel · À affiner dossier par dossier avec GreenFlex en TO1-TO2 · Montages juridiques à vérifier site par site</p>
+  </div>
+  <div class="bt-btns">
+    <button class="bt-btn green" onclick="window.print()"><i class="ti ti-printer" style="font-size:13px"></i> Imprimer</button>
+    <button class="bt-btn" onclick="window.location.href='Plan_Action_Budgetaire_P0P1_RGIF.html'"><i class="ti ti-arrow-left" style="font-size:13px"></i> Plan P0-P1</button>
+    <button class="bt-btn" onclick="window.location.href='Dashboard_10sites_RGIF.html'"><i class="ti ti-table" style="font-size:13px"></i> 10 sites</button>
+  </div>
+</div>
+
+</div>
+<div class="footer"><strong>GreenFlex</strong> · Stratégie de financement SDIE RGIF · Consultation AMO_2026-001 · Document confidentiel</div>
+
+<script>
+document.getElementById("hd-date").textContent = new Date().toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"});
+
+function showTab(id){
+  document.querySelectorAll(".tab-section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("tab-"+id).classList.add("active");
+  event.currentTarget.classList.add("active");
+}
+
+new Chart(document.getElementById("chart-cover"),{
+  type:"doughnut",
+  data:{
+    labels:["FIM MGP","Fonds Énergies MGP","ACTEE","CEE","BEI ELENA","DSIL","Reste à charge"],
+    datasets:[{
+      data:[800,620,480,950,620,250,1440],
+      backgroundColor:["#21AD81","#078970","#8B6914","#172154","#8E44AD","#C0392B","#D9D9D9"],
+      borderWidth:0,hoverOffset:6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,cutout:"58%",
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:v=>" "+v.label+" : "+v.raw+" k€ ("+Math.round(v.raw/5160*100)+"% du besoin)"}}
+    }
+  }
+});
+
+new Chart(document.getElementById("chart-sites"),{
+  type:"bar",
+  data:{
+    labels:["Mohier\nM-Alfort","Kellermann\nParis 13e","La Plaine\nSt-Denis","Du Pont\nCréteil","Foch\nVincennes"],
+    datasets:[
+      {label:"Reste à charge",data:[80,115,85,80,0],backgroundColor:"#FDECEA",borderRadius:0},
+      {label:"ACTEE + ELENA",data:[40,40,70,35,93],backgroundColor:"#0F6E56",borderRadius:0},
+      {label:"Subventions FIM + Fonds É. + DSIL",data:[120,115,100,120,115],backgroundColor:"#21AD81",borderRadius:0},
+      {label:"CEE",data:[190,145,60,180,375],backgroundColor:"#8B6914",borderRadius:0},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:v=>" "+v.dataset.label+" : "+v.raw+" k€"}}
+    },
+    scales:{
+      x:{stacked:true,ticks:{color:"#50506D",font:{size:10},autoSkip:false,maxRotation:0},grid:{display:false}},
+      y:{stacked:true,ticks:{color:"#50506D",font:{size:10},callback:v=>v+" k€"},grid:{color:"rgba(0,0,0,.05)"},beginAtZero:true}
+    }
+  }
+});
+</script>
+</body>
+</html>
